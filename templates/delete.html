@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{%block title%}
+<title>學生資料管理系統-刪除資料</title>
+<style>
+    h1,
+    h3 {
+        text-align: center;
+    }
+
+    table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<script>
+    /*啟動myFunction()方法，回傳文字(顯示)_您確定要刪除這筆資料嗎.....*/
+    function myFunction() {
+        return confirm("\n您確定要刪除這筆資料嗎\n刪除後無法恢復\n") 
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1 class="title">學生資料管理系統-刪除資料</h1>
+    <a href="/index/">
+        <h3>回首頁</h3>
+    </a>
+</div>
+<!-- action="(按下後)將會前往的畫面(網址)"-->
+<div>
+    <form action="/delete/{{datas.cID}}/" method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>姓名</th>
+                <td>{{datas.cName}}
+                </td>
+            </tr>
+            <tr>
+                <th>性別</th>
+                <td>
+                    {% if datas.cSex == "M" %}男{% endif %}
+                    {% if datas.cSex == "F" %}女{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>生日</th>
+                <td>{{datas.cBirthday|date:'y-m-d'}}</td>
+            </tr>
+            <tr>
+                <th>信箱</th>
+                <td>{{datas.cEmail}}</td>
+            </tr>
+            <tr>
+                <th>電話</th>
+                <td>{{datas.cPhone}}</td>
+            </tr>
+            <tr>
+                <th>地址</th>
+                <td>{{datas.cAddr}}</td>
+            </tr>
+            <tr>
+                <th colspan="2" style="text-align:center;">
+                    <!-- <input type="submit" name="button" id="button" value="刪除"> -->  
+                    <!-- 直接刪除不是很好的方法，製作一個視窗詢問是否要刪除。 -->
+                     <button onclick="return myFunction();">刪除</button> <!-- 需要回傳方法給 onclick 說明：按下刪除按鈕當下，就會啟動 myFunction()方法[] -->
+                </th>
+            </tr>
+        </table>
+    </form>
+</div>
+
+{% endblock %}
